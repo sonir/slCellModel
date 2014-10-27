@@ -19,9 +19,15 @@ int cellModelDataFoundation::addAgent(agent *ag){
     
     //Index Check
     if(agent_count>AG_MAX_NUM) return 1;
+
+    //Set Default Values for system
+    ag->id_num = agent_count;
+    ag->inertia = 1;
+    ag->contact_flg = RANDOM_WALK;
     
     //Copy the data
     agents[agent_count] = *ag;
+
     //Increment acount
     agent_count++;
     return 0;

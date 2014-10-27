@@ -13,16 +13,6 @@
 #include <iostream>
 #include "slEuclid.h"
 #include "Toolkit.h"
-#define AG_MAX_NUM 4
-
-
-typedef struct agent {
-    
-    float position;
-    bool inertia;
-    sl_scaled_position posi;
-    
-} agent;
 
 
 class cellModelDataFoundation {
