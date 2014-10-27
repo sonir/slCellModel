@@ -131,20 +131,26 @@ interaction_mode slCellModel::action(agent *ag){
 }
 
 
+void slCellModel::stroke(int ag_id){
+    
+    //Check contact with others of not (contact_flg will have the neares id)
+    agents[ag_id].contact_flg = contactCheck(ag_id);
+    
+    //Make interact with the nearest agent
+    interactWith(ag_id, agents[ag_id].contact_flg);
+    
+    //Do the set Action
+    this->action(&agents[ag_id]);
+    
+    
+}
+
 void slCellModel::cycle(){
     
     //Make agent interact with each others
     for (int i = 0; i < AG_MAX_NUM; i++){
-        
-        //Check contact with others of not (contact_flg will have the neares id)
-        agents[i].contact_flg = contactCheck(i);
-        
-        //Make interact with the nearest agent
-        interactWith(i, agents[i].contact_flg);
 
-        //Do the set Action
-        this->action(&agents[i]);
-        
+        this->stroke(i);        
         
 #ifdef MONITOR_AGENTS
         cout << "agent-" << i << " : hp:" << agents[i].hp << " arc position:" << agents[i].arc_position << " posi x:" << agents[i].posi.x << " posi y:" << agents[i].posi.y << endl;

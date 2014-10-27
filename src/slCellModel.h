@@ -14,6 +14,7 @@ class slCellModel : public cellModelDataFoundation {
         slCellModel(double screen_w, double screen_h); //Constructor2
         slEuclid *euclid;
         void interactWith(int i , int nearest_id);
+        void stroke(int ag_id);
         void cycle();
     
     private:
