@@ -10,6 +10,13 @@ slCellModel::slCellModel(){
     
 }
 
+slCellModel::slCellModel(double screen_w, double screen_h){
+    
+    //Instantiate euclid space handller.
+    euclid = new slEuclid(screen_w, screen_h);
+    
+}
+
 
 int slCellModel::contactCheck(int target){
     
@@ -64,14 +71,10 @@ void slCellModel::interactWith(int i, int nearest_id){
     if(this->attackCheck(target, another)){
         //If the attack was successed do as follows,
         target->action_flg = CHASE; //Set flag into chase
-        if(euclid->distance(target->posi, another->posi) <= ATTACK_LENGTH){ // If their come close, do attack
-
-            target->action_flg = ATTACK;
-//            another->hp -= (float)toolKit.dice(10)*0.01f; //Decreasing the hp
-//            target->action_flg = ATTACK; //Set the flg
-//            another->action_flg = DMG;
-        }
-    } else target->action_flg = RUN;
+        //If the agent comes close, then attack
+        if(euclid->distance(target->posi, another->posi) <= ATTACK_LENGTH) target->action_flg = ATTACK;
+    
+    }else target->action_flg = RUN;
     
     
 }
@@ -84,32 +87,32 @@ interaction_mode slCellModel::action(agent *ag){
     switch (ag->action_flg){
             
         case RANDOM_WALK:
-            cout << "random" << endl;
+//            cout << "random" << endl;
             toolKit.randomWalk(ag);
             return RANDOM_WALK;
             break;
             
         case RUN:
-            cout << "run" << endl;
+//            cout << "run" << endl;
             toolKit.run(ag);
             return RUN;
             break;
             
         case CHASE:
-            cout << "chase" << endl;
+//            cout << "chase" << endl;
             toolKit.chase(ag);
             return CHASE;
             break;
             
         case ATTACK:
-            cout << "Attack" << endl;
+//            cout << "Attack" << endl;
             another->hp -= (float)toolKit.dice(10)*0.01f; //Decreasing the hp
             another->action_flg = DMG;
             return ATTACK;
             break;
 
         case DMG:
-            cout << "dmg" << endl;
+//            cout << "dmg" << endl;
             ag->action_flg = RANDOM_WALK; //When Damaged round do not move
             return DMG;
             break;
@@ -142,11 +145,6 @@ void slCellModel::cycle(){
         //Do the set Action
         this->action(&agents[i]);
         
-//        //If the agent attacked, apply damage routine to the another.
-//        if (agents[i].action_flg==ATTACK){
-//            agents[agents[i].contact_flg].action_flg == DMG; //Set the flag to DMG
-//            this->action(&agents[agents[i].contact_flg]); //Do DMG Routine
-//        }
         
 #ifdef MONITOR_AGENTS
         cout << "agent-" << i << " : hp:" << agents[i].hp << " arc position:" << agents[i].arc_position << " posi x:" << agents[i].posi.x << " posi y:" << agents[i].posi.y << endl;

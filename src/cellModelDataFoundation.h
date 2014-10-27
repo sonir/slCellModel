@@ -22,6 +22,7 @@ class cellModelDataFoundation {
         cellModelDataFoundation(); //Constructor
         int addAgent(agent *ag);
         agent getAgent(int at_index);
+        void setAgent(int at_index, agent *ag);
     
         agent agents[AG_MAX_NUM];
         int agent_count;

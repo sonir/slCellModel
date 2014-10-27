@@ -92,8 +92,8 @@ void ToolKit::randomWalk(agent *ag){
     float direction = (float)1-( (dice(2)-1)*2 );
     float next = ( (float)dice(100)*0.01f*direction ) * RANDOM_WALK_FIX;
     ag->inertia = direction; //Update the move direction.
-    ag->arc_position+=next;
-    ag->arc_position=moveLimitter(ag->arc_position);
+    ag->circumference_posi+=next;
+    ag->circumference_posi=moveLimitter(ag->circumference_posi);
 
     
 }
@@ -103,15 +103,15 @@ void ToolKit::run(agent *ag){
     //Invert the move direction
     ag->inertia *= -1;
     float next = ( (((float)dice(100)*0.01f)*ag->inertia) * MOV_FIX ); //Move Positive
-    ag->arc_position+=next;
-    ag->arc_position=moveLimitter(ag->arc_position);
+    ag->circumference_posi+=next;
+    ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
     
 }
 
 void ToolKit::chase(agent *ag){
     float next = ( (((float)dice(100)*0.01f)*ag->inertia) * MOV_FIX ); //Move Positive
-    ag->arc_position=moveLimitter(ag->arc_position);
+    ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
 }
 

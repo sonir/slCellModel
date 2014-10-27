@@ -34,10 +34,19 @@ int cellModelDataFoundation::addAgent(agent *ag){
     
 }
 
+
 agent cellModelDataFoundation::getAgent(int at_index){
     
     
     return agents[at_index];
     
+    
+}
+
+void cellModelDataFoundation::setAgent(int at_index, agent *ag){
+    
+    if(at_index<agent_count){
+        agents[at_index] = *ag;
+    }
     
 }
