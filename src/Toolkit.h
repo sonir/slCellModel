@@ -26,6 +26,7 @@ public:
     void run(agent *ag);
     void chase(agent *ag);
     float moveLimitter(float aposi);
+    float hpLimitter(float hp);
 //    sl_scaled_position randomizePosition();
 //    sl_scaled_position move(interaction_mode mode, float mov, sl_scaled_position here, sl_scaled_position target);
     

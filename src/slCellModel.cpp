@@ -84,6 +84,7 @@ interaction_mode slCellModel::action(agent *ag){
     agent *another = &agents[ag->contact_flg];
     
     
+    float dmg_val = 0.0f;
     switch (ag->action_flg){
             
         case RANDOM_WALK:
@@ -106,7 +107,11 @@ interaction_mode slCellModel::action(agent *ag){
             
         case ATTACK:
 //            cout << "Attack" << endl;
-            another->hp -= (float)toolKit.dice(10)*0.01f; //Decreasing the hp
+            dmg_val = (float)(float)toolKit.dice(10)*0.01f;
+            another->hp -= dmg_val; //Decreasing the hp
+            another->hp = toolKit.hpLimitter(another->hp); //limitter process
+            ag->hp += dmg_val;
+            ag->hp = toolKit.hpLimitter(ag->hp);
             another->action_flg = DMG;
             return ATTACK;
             break;

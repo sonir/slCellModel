@@ -125,6 +125,16 @@ float ToolKit::moveLimitter(float aposi){
     
 }
 
+float ToolKit::hpLimitter(float hp){
+    
+    //If the position exceeds the area, set to the max or min value.
+    if (hp>1.0f) return 1.0f;
+    else if (hp < -1.0f) return -1.0f;
+    else return hp;
+    
+}
+
+
 ////sl_scaled_position Randomizer
 //sl_scaled_position ToolKit::randomizePosition()
 //{
