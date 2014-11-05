@@ -20,6 +20,8 @@ ToolKit::ToolKit()
     srand((unsigned)time(NULL)); //Set seed to rand
     id_counter = 0; //init id counter for generate unique id
     pre_id = 0;
+    mov_fix = 0.2f;
+    random_walk_fix = 0.1f;
     
 }
 
@@ -90,7 +92,7 @@ unsigned long ToolKit::generateUniqueID()
 void ToolKit::randomWalk(agent *ag){
     
     float direction = (float)1-( (dice(2)-1)*2 );
-    float next = ( (float)dice(100)*0.01f*direction ) * RANDOM_WALK_FIX;
+    float next = ( ((float)dice(100)*0.01f*direction) ) * random_walk_fix;
     ag->inertia = direction; //Update the move direction.
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
@@ -102,7 +104,7 @@ void ToolKit::run(agent *ag){
 
     //Invert the move direction
     ag->inertia *= -1;
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * MOV_FIX ); //Move Positive
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix ); //Move Positive
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
@@ -110,7 +112,7 @@ void ToolKit::run(agent *ag){
 }
 
 void ToolKit::chase(agent *ag){
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * MOV_FIX ); //Move Positive
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix ); //Move Positive
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
 }

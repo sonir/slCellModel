@@ -8,6 +8,16 @@ slCellModel::slCellModel(){
     //Instantiate euclid space handller.
     euclid = new slEuclid;
     
+    setMovFix(BASIC_MOV_FIX);
+    setRandomWalkFix(BASIC_RANDOM_WALK_FIX);
+    
+    //Init Touched Event Memory
+    for(int i =0; i<AG_MAX_NUM; i++)
+    {
+        touched.ag[i] = false;
+    }
+    
+    
 }
 
 slCellModel::slCellModel(double screen_w, double screen_h){
@@ -45,6 +55,13 @@ bool slCellModel::attackCheck(agent *target, agent *another){
     }
     
     return false;
+    
+}
+
+void slCellModel::syncTouchEvent(phisical_contact_t got_touched){
+    
+    
+    touched = got_touched;
     
 }
 
@@ -140,7 +157,15 @@ void slCellModel::stroke(int ag_id){
     
     //Check contact with others of not (contact_flg will have the neares id)
     agents[ag_id].contact_flg = contactCheck(ag_id);
-    
+    //For phisical contact
+//    if(touched.ag[ag_id]){
+//        agents[ag_id].contact_flg = contactCheck(ag_id);
+//    }else {
+//        agents[ag_id].contact_flg = NOT_FOUND;
+//        
+//    }
+
+
     //Make interact with the nearest agent
     interactWith(ag_id, agents[ag_id].contact_flg);
     
@@ -165,3 +190,18 @@ void slCellModel::cycle(){
     
     
 }
+
+void slCellModel::setMovFix(float fval){
+    
+    mov_fix = fval;
+    toolKit.mov_fix = mov_fix;
+    
+}
+
+void slCellModel::setRandomWalkFix(float fval){
+    
+    random_walk_fix = fval;
+    toolKit.random_walk_fix = random_walk_fix;
+    
+}
+

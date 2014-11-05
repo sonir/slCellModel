@@ -13,16 +13,23 @@ class slCellModel : public cellModelDataFoundation {
         slCellModel(); //Constructor
         slCellModel(double screen_w, double screen_h); //Constructor2
         slEuclid *euclid;
+        void syncTouchEvent(phisical_contact_t got_touched);    
         void interactWith(int i , int nearest_id);
         void stroke(int ag_id);
         void cycle();
+        float mov_fix;
+        float random_walk_fix;
+        void setMovFix(float fval);
+        void setRandomWalkFix(float fval);
+
     
     private:
         ToolKit toolKit;
-    
         int contactCheck(int target);
         bool attackCheck(agent *target, agent *another);
         interaction_mode action(agent *ag);
+        phisical_contact_t touched;
+
 
 };
 

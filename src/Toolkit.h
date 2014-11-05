@@ -15,7 +15,6 @@
 #include "slCellModelSetup.h"
 
 
-
 class ToolKit {
 
 public:
@@ -27,6 +26,8 @@ public:
     void chase(agent *ag);
     float moveLimitter(float aposi);
     float hpLimitter(float hp);
+    float mov_fix;
+    float random_walk_fix;
 //    sl_scaled_position randomizePosition();
 //    sl_scaled_position move(interaction_mode mode, float mov, sl_scaled_position here, sl_scaled_position target);
     
