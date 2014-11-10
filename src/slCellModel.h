@@ -13,7 +13,9 @@ class slCellModel : public cellModelDataFoundation {
         slCellModel(); //Constructor
         slCellModel(double screen_w, double screen_h); //Constructor2
         slEuclid *euclid;
-        void syncTouchEvent(phisical_contact_t got_touched);    
+        void syncTouchEvent(phisical_contact_t got_touched);
+        void initTouchEvent();
+        void initTouchEvent(int this_ag);
         void interactWith(int i , int nearest_id);
         void stroke(int ag_id);
         void cycle();

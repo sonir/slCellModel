@@ -50,3 +50,8 @@ void cellModelDataFoundation::setAgent(int at_index, agent *ag){
     }
     
 }
+
+void cellModelDataFoundation::reset(){
+    
+    agent_count = 0;
+}

@@ -60,10 +60,35 @@ bool slCellModel::attackCheck(agent *target, agent *another){
 
 void slCellModel::syncTouchEvent(phisical_contact_t got_touched){
     
+
+    for(int i=0; i< AG_MAX_NUM; i++){
+        
+        //Log the result until init
+        touched.ag[i] = touched.ag[i] || got_touched.ag[i];        
+
+    }
     
-    touched = got_touched;
     
 }
+
+void slCellModel::initTouchEvent(){
+    
+//    touched.ag[AG_MAX_NUM] = { 0 };
+    for (int i=0; i<AG_MAX_NUM; i++){
+        
+        touched.ag[i] = false;
+        
+    }
+    
+}
+
+void slCellModel::initTouchEvent(int this_ag){ // For set each
+    
+    
+        touched.ag[this_ag] = false;
+    
+}
+
 
 void slCellModel::interactWith(int i, int nearest_id){
 
@@ -157,14 +182,24 @@ void slCellModel::stroke(int ag_id){
     
     //Check contact with others of not (contact_flg will have the neares id)
     agents[ag_id].contact_flg = contactCheck(ag_id);
-    //For phisical contact
-//    if(touched.ag[ag_id]){
-//        agents[ag_id].contact_flg = contactCheck(ag_id);
-//    }else {
-//        agents[ag_id].contact_flg = NOT_FOUND;
-//        
-//    }
 
+    // If phisical contact occured, forcely set the nearest agents as contaced.
+    if(touched.ag[ag_id]){
+        
+        //Set the nearest agent as interacted agent
+        //TODO:: now ignore touch with human body. please imp it.
+        //Copy all agents positions into an array
+        sl_eudlid_position agents_positions[AG_MAX_NUM];
+        for(int i = 0; i<AG_MAX_NUM; i++) agents_positions[i]=agents[i].posi;
+        //Check who is the nearest agent
+        int nearest_ag = euclid->whoisNearest(agents[ag_id].posi, agents_positions, AG_MAX_NUM, ag_id);
+        //Set the got id as flg
+        agents[ag_id].contact_flg=nearest_ag;
+        
+    }
+
+
+    
 
     //Make interact with the nearest agent
     interactWith(ag_id, agents[ag_id].contact_flg);
@@ -172,6 +207,13 @@ void slCellModel::stroke(int ag_id){
     //Do the set Action
     this->action(&agents[ag_id]);
     
+    if(touched.ag[ag_id]){
+        //If physical touched, force run
+//        agents[ag_id].action_flg=RUN; //OverWrite Flag
+//        this->action(&agents[ag_id]);
+        toolKit.run(&agents[ag_id]);
+//        cout << ag_id << " :touched.RUN" << endl;
+    }
     
 }
 

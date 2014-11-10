@@ -26,6 +26,8 @@ class cellModelDataFoundation {
     
         agent agents[AG_MAX_NUM];
         int agent_count;
+    
+        void reset();
 
     
     
