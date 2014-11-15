@@ -92,7 +92,11 @@ unsigned long ToolKit::generateUniqueID()
 void ToolKit::randomWalk(agent *ag){
     
     float direction = (float)1-( (dice(2)-1)*2 );
-    float next = ( ((float)dice(100)*0.01f*direction) ) * random_walk_fix;
+   
+    //Mk dexterity_fix
+    float dex_fix = makeDexterityFix(ag->dexterity);
+    
+    float next = ( ((float)dice(100)*0.01f*direction) ) * random_walk_fix * dex_fix;
     ag->inertia = direction; //Update the move direction.
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
@@ -104,7 +108,10 @@ void ToolKit::run(agent *ag){
 
     //Invert the move direction
     ag->inertia *= -1;
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dexterity_fix); //Move Positive
+    //Mk dexterity_fix
+    float dex_fix = makeDexterityFix(ag->dexterity);
+    
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dex_fix); //Move Positive
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
@@ -112,7 +119,11 @@ void ToolKit::run(agent *ag){
 }
 
 void ToolKit::chase(agent *ag){
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix ); //Move Positive
+    
+    //Mk dexterity_fix
+    float dex_fix = makeDexterityFix(ag->dexterity);
+
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dex_fix); //Move Positive
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
 }
@@ -133,6 +144,13 @@ float ToolKit::hpLimitter(float hp){
     if (hp>1.0f) return 1.0f;
     else if (hp < -1.0f) return -1.0f;
     else return hp;
+    
+}
+
+float ToolKit::makeDexterityFix(int dex){
+    
+    
+    float fix = (float)dex/100.0f;
     
 }
 

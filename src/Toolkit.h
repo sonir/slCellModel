@@ -28,6 +28,7 @@ public:
     float hpLimitter(float hp);
     float mov_fix;
     float random_walk_fix;
+    float makeDexterityFix(int dex);
 //    sl_scaled_position randomizePosition();
 //    sl_scaled_position move(interaction_mode mode, float mov, sl_scaled_position here, sl_scaled_position target);
     
