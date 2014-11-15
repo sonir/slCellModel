@@ -104,7 +104,7 @@ void ToolKit::run(agent *ag){
 
     //Invert the move direction
     ag->inertia *= -1;
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix ); //Move Positive
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dexterity_fix); //Move Positive
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
