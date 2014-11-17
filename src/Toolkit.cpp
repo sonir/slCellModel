@@ -20,8 +20,8 @@ ToolKit::ToolKit()
     srand((unsigned)time(NULL)); //Set seed to rand
     id_counter = 0; //init id counter for generate unique id
     pre_id = 0;
-    mov_fix = 0.2f;
-    random_walk_fix = 0.1f;
+    mov_fix = 0.4f;
+    random_walk_fix = 0.2f;
     
 }
 
@@ -95,8 +95,8 @@ void ToolKit::randomWalk(agent *ag){
    
     //Mk dexterity_fix
     float dex_fix = makeDexterityFix(ag->dexterity);
-    
-    float next = ( ((float)dice(100)*0.01f*direction) ) * random_walk_fix * dex_fix;
+    if (!ag->hp)ag->hp=0.001;
+    float next = ( ((float)dice(100)*0.01f*direction) ) * random_walk_fix * dex_fix * ag->hp;
     ag->inertia = direction; //Update the move direction.
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
@@ -110,8 +110,8 @@ void ToolKit::run(agent *ag){
     ag->inertia *= -1;
     //Mk dexterity_fix
     float dex_fix = makeDexterityFix(ag->dexterity);
-    
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dex_fix); //Move Positive
+    if (!ag->hp)ag->hp=0.001;
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dex_fix/* * ag->hp*/); //Move Positive
     ag->circumference_posi+=next;
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
@@ -122,8 +122,8 @@ void ToolKit::chase(agent *ag){
     
     //Mk dexterity_fix
     float dex_fix = makeDexterityFix(ag->dexterity);
-
-    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dex_fix); //Move Positive
+    if (!ag->hp)ag->hp=0.001;
+    float next = ( (((float)dice(100)*0.01f)*ag->inertia) * mov_fix * dex_fix/* * ag->hp*/); //Move Positive
     ag->circumference_posi=moveLimitter(ag->circumference_posi);
     
 }
@@ -149,85 +149,10 @@ float ToolKit::hpLimitter(float hp){
 
 float ToolKit::makeDexterityFix(int dex){
     
-    
     float fix = (float)dex/100.0f;
+    
+//    if (fix>1.0)cout << "fix is" << fix << endl;
+    return fix;
     
 }
 
-
-////sl_scaled_position Randomizer
-//sl_scaled_position ToolKit::randomizePosition()
-//{
-//    sl_scaled_position posi;
-//    posi.x = (float)dice(20);
-//    posi.y = (float)dice(20);
-//    
-//    posi.x = ((posi.x-10.)/10.);
-//    posi.y = ((posi.y-10.)/10.);
-//    
-//    return posi;
-//    
-//}
-//
-//
-////Moving Function for Agent
-//sl_scaled_position  ToolKit::move(interaction_mode mode, float mov, sl_scaled_position here, sl_scaled_position target)
-//{
-//    
-//    sl_scaled_position next_posi;
-//
-//    //Create the random number for moving
-//    float mov_dist_1 = ((float)dice(1200)*mov)*0.001;
-//    float mov_dist_2 = ((float)dice(1200)*mov)*0.001;    
-//
-//    switch(mode)
-//    {
-//        case CHASE:
-//            //Chase X Axis
-//            if(here.x < target.x)next_posi.x = here.x + (mov_dist_1*MOV_FIX);
-//            else next_posi.x = here.x - (mov_dist_1*MOV_FIX);
-//            //Chase Y Axis
-//            if(here.y < target.y)next_posi.y = here.y + (mov_dist_2*MOV_FIX);
-//            else next_posi.y = here.y - (mov_dist_1*MOV_FIX);
-//            break;
-//
-//        case RUN:
-//            //Chase X Axis
-//            if(here.x < target.x)next_posi.x = here.x - (mov_dist_1*MOV_FIX);
-//            else next_posi.x = here.x + (mov_dist_1*MOV_FIX);
-//            //Chase Y Axis
-//            if(here.y < target.y)next_posi.y = here.y - (mov_dist_2*MOV_FIX);
-//            else next_posi.y = here.y + (mov_dist_1*MOV_FIX);
-//            break;
-//            
-//        case RANDOM_WALK:
-//            //Random Walk for X Axis
-//            if(dice(2)==2)next_posi.x = here.x + (mov_dist_1*RANDOM_WALK_FIX);
-//            else next_posi.x = here.x - (mov_dist_1*RANDOM_WALK_FIX);
-//            //Random Walk for Y Axis
-//            if(dice(2)==2)next_posi.y = here.y + (mov_dist_2*RANDOM_WALK_FIX);
-//            else next_posi.y = here.y - (mov_dist_2*RANDOM_WALK_FIX);            
-//            break;
-//            
-//        default:
-//            printf("ERROR: in ToolKit.move - the others of CHASE, RUN, RANDOM_WALK are utilized to move\n ");
-//            break;
-//            
-//            
-//    }
-//    
-//
-//    //Loop of World
-//    //For X
-//    if(next_posi.x > 1.) next_posi.x = (-1. + (next_posi.x - 1.)); // Move the agent to other size with exceeding distance
-//    else if (next_posi.x < -1.) next_posi.x = ( 1. + (next_posi.x+1.)); // Invert process
-//    //For Y
-//    if(next_posi.y > 1.) next_posi.y = (-1. + (next_posi.y - 1.)); // Same as above
-//    else if (next_posi.y < -1.) next_posi.y = ( 1. + (next_posi.y+1.)); // Same as above
-//            
-//                                               
-//    return next_posi;
-//
-//     //return here;
-//    
-//}

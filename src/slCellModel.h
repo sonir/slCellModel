@@ -23,14 +23,14 @@ class slCellModel : public cellModelDataFoundation {
         float random_walk_fix;
         void setMovFix(float fval);
         void setRandomWalkFix(float fval);
+        ToolKit toolKit;
+        phisical_contact_t touched;
 
     
     private:
-        ToolKit toolKit;
         int contactCheck(int target);
         bool attackCheck(agent *target, agent *another);
         interaction_mode action(agent *ag);
-        phisical_contact_t touched;
 
 
 };
